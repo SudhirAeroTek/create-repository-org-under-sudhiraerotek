@@ -8,7 +8,7 @@ on:
         required: true
       owner:
         description: 'Owner of the new repository'
-        required: false
+        required: true
 
 jobs:
   create-repo:
@@ -20,10 +20,10 @@ jobs:
 
     - name: Create Repository from Template
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.ORG_ADMIN_TOKEN }}
       run: |
         curl -X POST \
           -H "Authorization: token ${{ secrets.ORG_ADMIN_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/OWNER/create-repository-org-under-sudhiraerotek/generate \
-          "name":"${{ github.event.inputs.repo-name }}"}'
+          https://api.github.com/repos/OWNER/TEMPLATE_REPO/generate \
+          -d '{"owner":"${{ github.event.inputs.owner }}","name":"${{ github.event.inputs.repo-name }}"}'
