@@ -25,8 +25,8 @@ jobs:
         curl -X POST \
           -H "Authorization: token ${{ secrets.ORG_ADMIN_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/sudhirkilani1431987/create-repository-org-under-sudhiraerotek/generate \
-          -d '{"owner":"sudhirkilani1431987","name":"${{ github.event.inputs.repo-name }}"}'
+          https://api.github.com/repos/sukilani_allegis/create-repository-org-under-sudhiraerotek/generate \
+          -d '{"owner":"sukilani_allegis","name":"${{ github.event.inputs.repo-name }}"}'
 
   
       
