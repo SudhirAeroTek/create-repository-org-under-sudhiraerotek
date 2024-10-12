@@ -1,26 +1,29 @@
-name: Create Repo
-on: 
+name: Create Repository from Template
+
+on:
   workflow_dispatch:
     inputs:
-      repo-name: 
-        description: 'Name of the repository to be created'
+      repo-name:
+        description: 'Name of the new repository'
         required: true
-        default: ''
+      owner:
+        description: 'Owner of the new repository'
+        required: false
 
 jobs:
-  create-repository:
+  create-repo:
     runs-on: ubuntu-latest
-    name: Creating Organization Repository
+
     steps:
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-      - name: Creating GitHub Organization Repository
-        uses: repo-ctrl/create-repo-action@main 
-        id: create-repo
-        with:
-          repo-name: '${{ github.event.inputs.repo-name }}'
-          org-admin-token: '${{ secrets.ORG_ADMIN_TOKEN }}'
-          template-repo: create-repository-org-under-sudhiraerotek
-          private: false
-      - name: Log URL to the repo
-        run: echo "The new repo is ${{ steps.create-repo.outputs.repo-url }}"
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Create Repository from Template
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        curl -X POST \
+          -H "Authorization: token ${{ secrets.ORG_ADMIN_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/OWNER/create-repository-org-under-sudhiraerotek/generate \
+          "name":"${{ github.event.inputs.repo-name }}"}'
